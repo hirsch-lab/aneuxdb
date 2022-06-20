@@ -1,17 +1,12 @@
 <figure class="image">
   <img 
   align="right"
-  src="docs/logos/aneux_logo_realigned_medium.png"
+  src="docs/logos/aneux_logo.png"
   alt="Mesh processing pipeline"
   width="140px"
-  style="border-top:    15px solid transparent;
-         border-right:   0px solid transparent;
-         border-bottom: 30px solid transparent;
-         border-left:   30px solid transparent;
   "
   />
 </figure>
-
 
 # AneuX morphology database
 
@@ -19,14 +14,14 @@ An open-access, multi-centric database containing 3D geometries of 750 aneurysm 
 
 <br>
 
-## At a single glance
+## At a glance
 
 ### Dataset summary:
 
 * 750 aneurysm domes (surface meshes)
 * 668 vessel trees (surface meshes)
 * 3 different data sources (AneuX, @neurIST, Aneurisk)
-* 3 different mesh resolutions (original, 0.01mm² and 0.05mm² target cell area)
+* 3 different mesh resolutions (original resolution, 0.01mm² and 0.05mm² target cell area)
 * 4 different cut configurations (including planar and free-form cuts)
 * 5 clinical parameters (aneurysm rupture status, location and side; patient age and sex)
 * 170 precomputed morphometric indices for each of the aneurysm domes
@@ -40,17 +35,16 @@ An open-access, multi-centric database containing 3D geometries of 750 aneurysm 
 
 
  
-## About:
+## About
 
 * **Authors**: Norman Juchler¹, Philippe Bijlenga², Sven Hirsch¹  
 * **Affiliations**:  
 ¹ [Center of Computational Health](https://www.zhaw.ch/en/lsfm/institutes-centres/icls/computational-health/), Zurich University of Applied Sciences, Switzerland  
 ² [Neurosurgery Division](https://www.hug.ch/en/neurosurgery), Geneva University Hospital and Faculty of Medicine, Switzerland
 * **Version**: GMTK v0.3-alpha (git-hash 08ef14c, pre-release), February 2021  
-* **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
- </div>  
-* **Article citation**: Juchler, Schilling, Bijlenga, Kurtcuoglu, Hirsch. "*Shape trumps size: Image-based morphological analysis reveals that the 3D shape discriminates intracranial aneurysm disease status better than aneurysm size*", Frontiers in Neurology (2022): 778, [DOI](https://doi.org/10.3389/fneur.2022.809391).  
-* **Dataset citation**: Juchler, Bijlenga, Hirsch, "*AneuX morphology database*", Zenodo, [DOI TODO]()
+* **Licenses**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (dataset), [MIT](https://github.com/hirsch-lab/aneuxdb/blob/main/LICENSE) (code)
+* **Article citation**: Juchler, Schilling, Bijlenga, Kurtcuoglu, Hirsch. *"Shape trumps size: Image-based morphological analysis reveals that the 3D shape discriminates intracranial aneurysm disease status better than aneurysm size"*, Frontiers in Neurology (2022): 778, [DOI](https://doi.org/10.3389/fneur.2022.809391).  
+* **Dataset citation**: Juchler, Bijlenga, Hirsch, *"AneuX morphology database"*, Zenodo, [DOI TODO]()
 
 
 ## Dataset
@@ -70,11 +64,12 @@ The dataset consists of totally 750 aneurysm domes. The geometries were all extr
 | Patient age in years<br>(mean±SD) | F: 56.4±14.0<br>M: 54.3±13.8 | F: 54.4±12.7<br>M: 50.6±12.2 | F: 53.4±12.2<br>M: 49.8±10.6 | F: 53.6±15.2<br>M: 55.5±10.8  |  ***F: 55.0±13.6<br>M: 52.8±12.2***
 | Number of IAs | 350 | 135 | 164 | 101  |  ***750***
 Ruptured / unruptured | R: 87 (25%)<br>U: 263 (75%) | R: 41 (30%)<br>U: 79 (59%) | R: 89 (54%)<br>U: 75 (46%) | R: 44 (44%)<br>U: 57 (56%)  |  ***R: 261 (35%)<br>U: 474 (65%)***
+
 **Table 1**: Summary of the different sub-datasets.
 
 <br>
 
-## Processing##
+## Processing
 
 The processing consists of the following main steps (Figure 1): mesh cleaning (remeshing and smoothing), aneurysm isolation (cutting) and shape description (morphometry). The extraction of the vessel geometries (vessel lumen segmentation) is not further explained here, as the AneuX morphology database does not contain medical imaging data.
 
@@ -109,11 +104,13 @@ width="80%"
 **Figure 1**: Image processing pipeline
 -->
 
-<br>
+<br><br>
 
 **Mesh cleaning:** Many operations on surface meshes are highly sensitive to mesh defects, such as small holes, singular/non-manifold edges or vertices, incoherently oriented mesh cells, isolated or intersecting elements [1]. Remeshing the input surfaces with an appropriate target cell area can solve many of these problems. Smoothing equally has a sanitizing, homogenizing effect on the surface meshes, see Figure 2.
 
 Therefore, it is recommended to clean the input surface meshes. The processing scripts rely on VMTK's surface remeshing tool ([link](http://www.vmtk.org/vmtkscripts/vmtksurfaceremeshing.html)), with target cell area of 0.05mm² or 0.01mm². For smoothing, non-shrinking Taubin smoothing is used, implemented in VTK ([link](https://vtk.org/doc/nightly/html/classvtkWindowedSincPolyDataFilter.html)). Note that Taubin's method is a "topological" smoother that disregards spatial proximity. Consequently, smoothing meshes with different resolutions and fixed smoothing parameters will produce different results. In order to achieve similar spatial smoothing for differently resolved surface meshes, the parameters were adjusted based on a heuristic relationship.
+
+<br>
 
 <figure class="image">
   <img 
@@ -124,8 +121,7 @@ Therefore, it is recommended to clean the input surface meshes. The processing s
   <figcaption><b>Figure 2</b>: Comparison of different mesh resolutions</figcaption>
 </figure>
 
-<br>
-
+<br><br>
 
 
 **Aneurysm isolation:** GMTK offers two cut tools to isolate the aneurysm, implemented as extensions for the GMTK FileViewer. With the *planar* method (extension: `ex:cut`), the aneurysm domes are delineated using planar cuts. The placement of cut planes is facilitated using the centerlines of the parent vessels. With the *ninja* method (extension: `ex:scissor`), the aneurysm domes are isolated using non-planar, free-form cuts. 
@@ -145,7 +141,7 @@ Figure 3 illustrates all cut configurations relevant for the Aneux morphology da
   <figcaption><b>Figure 3</b>: Different cut configurations</figcaption>
 </figure>
 
-<br>
+<br><br>
 
 **Geometry description:** A description of the morphometric features computed for the AneuX morphology database is included HERE [**TODO**]. Note that some methods are more sensitive to mesh resolution or different cutting methods than others.
 
@@ -167,9 +163,10 @@ Figure 3 illustrates all cut configurations relevant for the Aneux morphology da
 | 5. | Mesh cleaning of aneurysms | Automated | Aneurysms | Aneurysms* |
 | 6. | Show/inspect the data | Manual | Aneurysms*, vessels | – |
 | 7. | Compute geometry indices | Automated | Aneurysms* | Morpho data
-**Table 1**: Sequence of operations to compute morphometric indices. The * indicates geometries after mesh cleaning.
 
-<br> 
+**Table 2**: Sequence of operations to compute morphometric indices. The * indicates geometries after mesh cleaning.
+
+<br><br>
 
 
 ## Acknowledgments
@@ -200,6 +197,6 @@ style="max-height:150px"
 
 ## References
 
-[1]: Campen et al., 2012, A practical Guide to Polygon Mesh Repairing. [Link](https://www.graphics.rwth-aachen.de/publication/034/)
+\[1\]: Campen et al., 2012, A practical Guide to Polygon Mesh Repairing. [Link](https://www.graphics.rwth-aachen.de/publication/034/)
 
 **[TODO]**: Refs vmtk, vtk, own publications.
