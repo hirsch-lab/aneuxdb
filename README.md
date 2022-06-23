@@ -10,11 +10,12 @@
 
 # AneuX morphology database
 
-An open-access, multi-centric database containing 3D geometries of 750 aneurysm collected in the course of the AneuX project (2015-2020). The database combines data from 3 different projects (**AneuX**, **@neurIST** and **Aneurisk**) and was standardized using a single mesh processing pipeline. Code to process and view the 3D geometries is also provided.
+An open-access, multi-centric database containing 3D geometric models of 750 intracranial aneurysms curated in the context of the AneuX project (2015-2020). The database combines data from 3 different European projects (**AneuX**, **@neurIST** and **Aneurisk**) standardized using a single processing pipeline. Code to process and view the 3D geometries is also provided.
 
 <br>
 
 ## At a glance
+
 
 ### Dataset summary:
 
@@ -24,7 +25,7 @@ An open-access, multi-centric database containing 3D geometries of 750 aneurysm 
 * 3 different mesh resolutions (original resolution, 0.01mm² and 0.05mm² target cell area)
 * 4 different cut configurations (including planar and free-form cuts)
 * 5 clinical parameters (aneurysm rupture status, location and side; patient age and sex)
-* 170 precomputed morphometric indices for each of the aneurysm domes
+* 170 pre-computed morphometric indices for each of the aneurysm domes
 
 ### Software summary:
 
@@ -41,10 +42,11 @@ An open-access, multi-centric database containing 3D geometries of 750 aneurysm 
 * **Affiliations**:  
 ¹ [Center of Computational Health](https://www.zhaw.ch/en/lsfm/institutes-centres/icls/computational-health/), Zurich University of Applied Sciences, Switzerland  
 ² [Neurosurgery Division](https://www.hug.ch/en/neurosurgery), Geneva University Hospital and Faculty of Medicine, Switzerland
-* **Version**: GMTK v0.3-alpha (git-hash 08ef14c, pre-release), February 2021  
+* **Version**: GMTK v0.3-alpha (git-hash 08ef14c, pre-release), February 2021  **[TODO]**
 * **Licenses**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (dataset), [MIT](https://github.com/hirsch-lab/aneuxdb/blob/main/LICENSE) (code)
-* **Article citation**: Juchler, Schilling, Bijlenga, Kurtcuoglu, Hirsch. *"Shape trumps size: Image-based morphological analysis reveals that the 3D shape discriminates intracranial aneurysm disease status better than aneurysm size"*, Frontiers in Neurology (2022): 778, [DOI](https://doi.org/10.3389/fneur.2022.809391).  
-* **Dataset citation**: Juchler, Bijlenga, Hirsch, *"AneuX morphology database"*, Zenodo, [DOI TODO]()
+* **Article citation**: Juchler, Schilling, Bijlenga, Kurtcuoglu, Hirsch. *"Shape trumps size: Image-based morphological analysis reveals that the 3D shape discriminates intracranial aneurysm disease status better than aneurysm size"*, Frontiers in Neurology (2022), [DOI: 10.3389/fneur.2022.809391](https://doi.org/10.3389/fneur.2022.809391).  
+* **Dataset citation**: Juchler, Bijlenga, Hirsch, *"AneuX morphology database"*, Zenodo, [DOI: 10.5281/zenodo.6678442](https://doi.org/10.5281/zenodo.6678442)
+
 
 
 ## Dataset
@@ -71,7 +73,7 @@ Ruptured / unruptured | R: 87 (25%)<br>U: 263 (75%) | R: 41 (30%)<br>U: 79 (59%)
 
 ## Processing
 
-The processing consists of the following main steps (Figure 1): mesh cleaning (remeshing and smoothing), aneurysm isolation (cutting) and shape description (morphometry). The extraction of the vessel geometries (vessel lumen segmentation) is not further explained here, as the AneuX morphology database does not contain medical imaging data.
+The processing consists of the following main steps (Figure 1): mesh cleaning (re-meshing and smoothing), aneurysm isolation (cutting) and shape description (morphometry). The extraction of the vessel geometries (vessel lumen segmentation) is not further explained here, as the AneuX morphology database does not contain medical imaging data.
 
 <br>
 
@@ -106,9 +108,9 @@ width="80%"
 
 <br><br>
 
-**Mesh cleaning:** Many operations on surface meshes are highly sensitive to mesh defects, such as small holes, singular/non-manifold edges or vertices, incoherently oriented mesh cells, isolated or intersecting elements [1]. Remeshing the input surfaces with an appropriate target cell area can solve many of these problems. Smoothing equally has a sanitizing, homogenizing effect on the surface meshes, see Figure 2.
+**Mesh cleaning:** Many operations on surface meshes are highly sensitive to mesh defects, such as small holes, singular/non-manifold edges or vertices, incoherently oriented mesh cells, isolated or intersecting elements [1]. Re-meshing the input surfaces with an appropriate target cell area can solve many of these problems. Smoothing equally has a sanitizing, homogenizing effect on the surface meshes, see Figure 2.
 
-Therefore, it is recommended to clean the input surface meshes. The processing scripts rely on VMTK's surface remeshing tool ([link](http://www.vmtk.org/vmtkscripts/vmtksurfaceremeshing.html)), with target cell area of 0.05mm² or 0.01mm². For smoothing, non-shrinking Taubin smoothing is used, implemented in VTK ([link](https://vtk.org/doc/nightly/html/classvtkWindowedSincPolyDataFilter.html)). Note that Taubin's method is a "topological" smoother that disregards spatial proximity. Consequently, smoothing meshes with different resolutions and fixed smoothing parameters will produce different results. In order to achieve similar spatial smoothing for differently resolved surface meshes, the parameters were adjusted based on a heuristic relationship.
+Therefore, it is recommended to clean the input surface meshes. The processing scripts rely on VMTK's surface re-meshing tool ([link](http://www.vmtk.org/vmtkscripts/vmtksurfaceremeshing.html)), with target cell area of 0.05mm² or 0.01mm². For smoothing, non-shrinking Taubin smoothing is used, implemented in VTK ([link](https://vtk.org/doc/nightly/html/classvtkWindowedSincPolyDataFilter.html)). Note that Taubin's method is a "topological" smoother that disregards spatial proximity. Consequently, smoothing meshes with different resolutions and fixed smoothing parameters will produce different results. In order to achieve similar spatial smoothing for differently resolved surface meshes, the parameters were adjusted based on a heuristic relationship.
 
 <br>
 
@@ -126,7 +128,7 @@ Therefore, it is recommended to clean the input surface meshes. The processing s
 
 **Aneurysm isolation:** GMTK offers two cut tools to isolate the aneurysm, implemented as extensions for the GMTK FileViewer. With the *planar* method (extension: `ex:cut`), the aneurysm domes are delineated using planar cuts. The placement of cut planes is facilitated using the centerlines of the parent vessels. With the *ninja* method (extension: `ex:scissor`), the aneurysm domes are isolated using non-planar, free-form cuts. 
 
-Both methods require manual input by an operator. It is recommended to clean the surface meshes of the isolated aneurysm domes once more after cutting (remeshing, no smoothing) to remove seams or other artifacts caused by the cutting routines.
+Both methods require manual input by an operator. It is recommended to clean the surface meshes of the isolated aneurysm domes once more after cutting (re-meshing, no smoothing) to remove seams or other artifacts caused by the cutting routines.
 
 Figure 3 illustrates all cut configurations relevant for the Aneux morphology database. The cut planes / seams were determined according to a set of predetermined rules. (Link, [**TODO**])
 
@@ -190,7 +192,7 @@ AneuX received funding through SystemsX.ch / SNF. This database would not be pos
 <img 
 src="docs/logos/logos_combined.png"
 alt="Supporters of this project"
-style="max-height:150px"
+height="150px"
 />
 
 <br>
