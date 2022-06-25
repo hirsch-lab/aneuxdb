@@ -10,7 +10,16 @@
 
 # AneuX morphology database
 
-An open-access, multi-centric database containing 3D geometric models of 750 intracranial aneurysms curated in the context of the AneuX project (2015-2020). The database combines data from 3 different European projects (**AneuX**, **@neurIST** and **Aneurisk**) standardized using a single processing pipeline. Code to process and view the 3D geometries is also provided.
+An open-access, multi-centric database containing 3D geometric models of 750 intracranial aneurysms curated in the context of the AneuX project (2015-2020). The database combines data from three different projects (**AneuX**, **@neurIST** and **Aneurisk**) standardized using a single processing pipeline. 
+
+The aneuxdb repository offers code to process, manipulate and view the 3D geometries for their morphological analysis.
+
+<br>
+
+```
+NOTE: Code publication in progress
+      Please be patient :)
+```
 
 <br>
 
@@ -42,7 +51,6 @@ An open-access, multi-centric database containing 3D geometric models of 750 int
 * **Affiliations**:  
 ¹ [Center of Computational Health](https://www.zhaw.ch/en/lsfm/institutes-centres/icls/computational-health/), Zurich University of Applied Sciences, Switzerland  
 ² [Neurosurgery Division](https://www.hug.ch/en/neurosurgery), Geneva University Hospital and Faculty of Medicine, Switzerland
-* **Version**: GMTK v0.3-alpha (git-hash 08ef14c, pre-release), February 2021  **[TODO]**
 * **Licenses**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (dataset), [MIT](https://github.com/hirsch-lab/aneuxdb/blob/main/LICENSE) (code)
 * **Article citation**: Juchler, Schilling, Bijlenga, Kurtcuoglu, Hirsch. *"Shape trumps size: Image-based morphological analysis reveals that the 3D shape discriminates intracranial aneurysm disease status better than aneurysm size"*, Frontiers in Neurology (2022), [DOI: 10.3389/fneur.2022.809391](https://doi.org/10.3389/fneur.2022.809391).  
 * **Dataset citation**: Juchler, Bijlenga, Hirsch, *"AneuX morphology database"*, Zenodo, [DOI: 10.5281/zenodo.6678442](https://doi.org/10.5281/zenodo.6678442)
@@ -130,7 +138,7 @@ Therefore, it is recommended to clean the input surface meshes. The processing s
 
 Both methods require manual input by an operator. It is recommended to clean the surface meshes of the isolated aneurysm domes once more after cutting (re-meshing, no smoothing) to remove seams or other artifacts caused by the cutting routines.
 
-Figure 3 illustrates all cut configurations relevant for the Aneux morphology database. The cut planes / seams were determined according to a set of predetermined rules. (Link, [**TODO**])
+Figure 3 illustrates all cut configurations relevant for the Aneux morphology database. The cut planes / seams were determined according to a set of predetermined rules. ([Link](https://doi.org/10.3389/fneur.2022.809391))
 
 <br>
 
@@ -145,7 +153,7 @@ Figure 3 illustrates all cut configurations relevant for the Aneux morphology da
 
 <br><br>
 
-**Geometry description:** A description of the morphometric features computed for the AneuX morphology database is included HERE [**TODO**]. Note that some methods are more sensitive to mesh resolution or different cutting methods than others.
+**Geometry description:** A brief description of the morphometric features computed for the AneuX morphology database is included in [Juchler 2022](https://doi.org/10.3389/fneur.2022.809391). Note that some methods are more sensitive to mesh resolution or different cutting methods than others.
 
 **Implementation:** The scripts under `code/aneuxdb/processing/` implement the above steps. Table 1 provides a summary of what these scripts do. Some of scripts require user interaction (*manual* mode), others of which do not (*automated* mode). 
 
@@ -173,19 +181,24 @@ Figure 3 illustrates all cut configurations relevant for the Aneux morphology da
 
 ## Acknowledgments
 
-We thank the following people for their support and contributions to the AneuX morphology database, in alphabetical order:
+We thank the following people for their support and contributions to the AneuX project, namely (in alphabetical order)
 
-* Aneurisk project team
-* @neurIST project team
+
 * Diana Sapina
+* Karl Lovblad
+* Karl Schaller
 * Olivier Brina
+* Paolo Machi
 * Rafik Ouared
 * Sabine Schilling
+* Sandrine Morel
 * Ueli Ebnöther
 * Vartan Kurtucuoglu
 * Vitor Mendes Pereira
+* Zolt Kuscàr
 
-AneuX received funding through SystemsX.ch / SNF. This database would not be possible without the support of the Zurich University of Applied Sciences (ZHAW) and University Hospitals Geneva (HUG)
+
+The AneuX project was supported by SystemsX.ch, and evaluated by the Swiss National Science Foundation (SNSF). This database would not be possible without the support of the Zurich University of Applied Sciences (ZHAW) and University Hospitals Geneva (HUG)
 
 <br>
 
